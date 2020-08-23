@@ -162,7 +162,32 @@ class Graph:
         """
         Use DFS with a stack to find a path from start_id to target_id.
         """
-        pass
+        if self.contains_id(start_id) is False or self.contains_id(target_id) is False:
+            raise KeyError("One or both vertices are not in the graph!")
+
+        visited_vertices = dict()
+        next_vertices = deque()
+
+        visited_vertices[self.get_vertex(start_id)] = list()
+        next_vertices.append(self.get_vertex(start_id))
+        target_distance_vertices = list()
+
+        while len(next_vertices) > 0:
+            temp = next_vertices.pop()
+
+            for neighbor in temp.get_neighbors():
+                if neighbor not in visited_vertices:
+                    current_path = visited_vertices[temp]
+                    # extend the path by 1 vertex
+                    next_path = current_path + [neighbor]
+                    if neighbor.get_id() == target_id:
+                        target_distance_vertices.append(neighbor.get_id())
+                    visited_vertices[neighbor] = next_path
+                    next_vertices.append(neighbor)
+        result = list()
+        for elm in visited_vertices.keys():
+            result.append(elm.get_id())
+        return result
 
     def contains_cycle(self):
         """
