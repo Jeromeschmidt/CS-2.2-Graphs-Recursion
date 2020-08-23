@@ -47,9 +47,10 @@ if __name__ == '__main__':
 
     # Print edges
     print('The edges are:')
-    for vertex_obj in graph.get_vertices():
-        for neighbor_obj in vertex_obj.get_neighbors():
-            print(f'({vertex_obj.get_id()} , {neighbor_obj.get_id()})')
+    # for vertex_obj in graph.get_vertices():
+    #     for neighbor_obj in vertex_obj.get_neighbors():
+    #         print(f'({vertex_obj.get_id()} , {neighbor_obj.get_id()})')
+    print(graph.get_edges())
 
     # Search the graph
     print('Performing BFS traversal...')

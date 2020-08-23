@@ -102,6 +102,13 @@ class Graph:
         """
         return list(self.vertex_dict.values())
 
+    def get_edges(self):
+        result = list()
+        for vertex_obj in self.get_vertices():
+            for neighbor_obj in vertex_obj.get_neighbors():
+                result.append(f'({vertex_obj.get_id()} , {neighbor_obj.get_id()})')
+        return result
+
     def contains_id(self, vertex_id):
         return vertex_id in self.vertex_dict
 
@@ -189,10 +196,20 @@ class Graph:
             result.append(elm.get_id())
         return result
 
+    def dfs_traversal(self, start_id):
+        """Visit each vertex, starting with start_id, in DFS order."""
+
+        pass
+
     def contains_cycle(self):
         """
         Return True if the directed graph contains a cycle, False otherwise.
         """
+        if self.is_directed is False and len(self.get_edges() > 0):
+            return False
+
+        for vert in self.get_vertices():
+
         pass
 
     def topological_sort(self):
