@@ -8,23 +8,34 @@ if __name__ == '__main__':
 
     # Create the graph
 
-    graph = Graph(is_directed=True)
-
-    # Add some vertices
-    graph.add_vertex('A')
-    graph.add_vertex('E')
-    graph.add_vertex('B')
-    graph.add_vertex('C')
-    graph.add_vertex('D')
-    graph.add_vertex('F')
-    graph.add_vertex('G')
-
-    # Add connections
-    graph.add_edge('A', 'B')
-    graph.add_edge('B', 'C')
-    graph.add_edge('B', 'D')
+    # graph = Graph(is_directed=True)
+    #
+    # # Add some vertices
+    # graph.add_vertex('A')
+    # graph.add_vertex('E')
+    # graph.add_vertex('B')
+    # graph.add_vertex('C')
+    # graph.add_vertex('D')
+    # graph.add_vertex('F')
+    # graph.add_vertex('G')
+    #
+    # # Add connections
+    # graph.add_edge('A', 'B')
+    # graph.add_edge('B', 'C')
+    # graph.add_edge('B', 'D')
+    # graph.add_edge('D', 'E')
+    # graph.add_edge('F', 'G')
+    graph = Graph(is_directed=False)
+    vertex_a = graph.add_vertex('A')
+    vertex_b = graph.add_vertex('B')
+    vertex_c = graph.add_vertex('C')
+    vertex_d = graph.add_vertex('D')
+    vertex_d = graph.add_vertex('E')
+    vertex_d = graph.add_vertex('F')
+    graph.add_edge('A','B')
+    graph.add_edge('A','C')
+    graph.add_edge('B','C')
     graph.add_edge('D', 'E')
-    graph.add_edge('F', 'G')
 
     # Or, read a graph in from a file
     # graph = read_graph_from_file('test_files/graph_small_directed.txt')
@@ -53,3 +64,5 @@ if __name__ == '__main__':
     print('Finding all vertices distance 2 away...')
     vertices_2_away = graph.find_vertices_n_away('A', 2)
     print(vertices_2_away)
+
+    print(graph.get_connected_components())

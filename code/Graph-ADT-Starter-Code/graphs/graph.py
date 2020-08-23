@@ -1,4 +1,5 @@
 from collections import deque
+import random
 
 class Vertex(object):
     """
@@ -112,6 +113,75 @@ class Graph:
         """Return a string representation of the graph."""
         return self.__str__()
 
+    def is_bipartite(self):
+        """
+        Return True if the graph is bipartite, and False otherwise.
+        """
+        start_vertex = self.get_vertex(random.choice(list(self.vertex_dict.keys())))
+
+        visited_vertices = set()
+        next_vertices = deque()
+        colors = dict()
+
+        visited_vertices.add(start_vertex)
+        next_vertices.append(start_vertex)
+        colors[start_vertex] = 1
+
+        while len(next_vertices) > 0:
+            temp = next_vertices.popleft()
+            visited_vertices.add(temp)
+            for vert in temp.get_neighbors():
+                if vert in colors and colors[vert] == colors[temp]:
+                    return False
+                else:
+                    colors[vert] = colors[temp] * -1
+                if vert not in visited_vertices:
+                    next_vertices.append(vert)
+
+        return True
+
+    def get_connected_components(self):
+        """
+        Return a list of all connected components, with each connected component
+        represented as a list of vertex ids.
+        """
+        connected_components = list()
+        vertices_id = list(set(self.vertex_dict.keys()))
+        visited_vertices = set()
+
+        for vert_id in vertices_id:
+            if vert_id not in visited_vertices:
+                result = list(self.bfs_traversal(vert_id))
+                connected_components.append(result)
+                for elm in result:
+                    visited_vertices.add(elm)
+
+        return connected_components
+
+    def find_path_dfs_iter(self, start_id, target_id):
+        """
+        Use DFS with a stack to find a path from start_id to target_id.
+        """
+        pass
+
+    def contains_cycle(self):
+        """
+        Return True if the directed graph contains a cycle, False otherwise.
+        """
+        pass
+
+    def topological_sort(self):
+        """
+        Return a valid ordering of vertices in a directed acyclic graph.
+        If the graph contains a cycle, throw a ValueError.
+        """
+        # TODO: Create a stack to hold the vertex ordering.
+        # TODO: For each unvisited vertex, execute a DFS from that vertex.
+        # TODO: On the way back up the recursion tree (that is, after visiting a
+        # vertex's neighbors), add the vertex to the stack.
+        # TODO: Reverse the contents of the stack and return it as a valid ordering.
+        pass
+
     def bfs_traversal(self, start_id):
         """
         Traverse the graph using breadth-first search.
@@ -122,16 +192,19 @@ class Graph:
         visited_vertices = set()
         next_vertices = deque()
 
-        visited_vertices.add(self.get_vertex(start_id))
-        next_vertices.append(self.get_vertex(start_id))
+        # visited_vertices.add(self.get_vertex(start_id))
+        # next_vertices.append(self.get_vertex(start_id))
+        visited_vertices.add(start_id)
+        next_vertices.append(start_id)
 
         while len(next_vertices) > 0:
             temp = next_vertices.popleft()
             visited_vertices.add(temp)
-            for vert in temp.get_neighbors():
-                next_vertices.append(vert)
+            for vert in self.get_vertex(temp).get_neighbors():
+                if vert.get_id() not in visited_vertices:
+                    next_vertices.append(vert.get_id())
 
-        return #Search complete
+        return visited_vertices
 
     def find_shortest_path(self, start_id, target_id):
         """
