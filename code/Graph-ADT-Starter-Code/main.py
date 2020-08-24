@@ -67,3 +67,8 @@ if __name__ == '__main__':
     print(vertices_2_away)
 
     print(graph.get_connected_components())
+
+    # print(graph.dfs_traversal('A'))
+
+    print("!!!")
+    print(graph.contains_cycle())

@@ -196,21 +196,52 @@ class Graph:
             result.append(elm.get_id())
         return result
 
-    def dfs_traversal(self, start_id):
-        """Visit each vertex, starting with start_id, in DFS order."""
-
-        pass
+    # def dfs_traversal(self, start_id):
+    #     """Visit each vertex, starting with start_id, in DFS order."""
+    #
+    #     visited = set() # set of vertices we've visited so far
+    #
+    #     def dfs_traversal_recursive(start_vertex):
+    #         print(f'Visiting vertex {start_vertex.get_id()}')
+    #
+    #         # recurse for each vertex in neighbors
+    #         for neighbor in start_vertex.get_neighbors():
+    #             if neighbor.get_id() not in visited:
+    #                 visited.add(neighbor.get_id())
+    #                 dfs_traversal_recursive(neighbor)
+    #         return
+    #
+    # visited.add(start_id)
+    # start_vertex = self.get_vertex(start_id)
+    # dfs_traversal_recursive(start_vertex)
 
     def contains_cycle(self):
         """
         Return True if the directed graph contains a cycle, False otherwise.
         """
-        if self.is_directed is False and len(self.get_edges() > 0):
+        if self.is_directed is False and len(self.get_edges()) > 0:
             return False
 
-        for vert in self.get_vertices():
+        start_id = random.choice(list(self.vertex_dict.keys()))
+        print(type(start_id))
+        next_vertices = deque()
+        path = dict()
+        path[start_id] = list()
 
-        pass
+        next_vertices.append(start_id)
+
+        while len(next_vertices) > 0:
+            temp = next_vertices.popleft()
+
+            for neighbor in self.get_vertex(temp).get_neighbors():
+                current_path = path[temp]
+                if neighbor.get_id() in current_path:
+                    return True
+                next_path = current_path + [neighbor.get_id()]
+
+                path[neighbor.get_id()] = next_path
+                next_vertices.append(neighbor.get_id())
+        return False
 
     def topological_sort(self):
         """
