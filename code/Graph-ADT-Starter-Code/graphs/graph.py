@@ -243,6 +243,21 @@ class Graph:
                 next_vertices.append(neighbor.get_id())
         return False
 
+    def dfs(self, start_id, visited):
+        """
+        Helper function for topological_sort
+        """
+        # visited.append(start_id)
+
+        for vert in self.get_vertex(start_id).get_neighbors():
+            vert_id = vert.get_id()
+            if vert_id not in visited:
+                self.dfs(vert_id, visited)
+
+        visited.append(start_id)
+
+        return list(visited)
+
     def topological_sort(self):
         """
         Return a valid ordering of vertices in a directed acyclic graph.
@@ -253,7 +268,18 @@ class Graph:
         # TODO: On the way back up the recursion tree (that is, after visiting a
         # vertex's neighbors), add the vertex to the stack.
         # TODO: Reverse the contents of the stack and return it as a valid ordering.
-        pass
+        if self.contains_cycle():
+            raise ValueError("Graph contains a cycle")
+
+        vertices = deque()
+
+        for vertice in self.get_vertices():
+            if vertice.get_id() not in vertices:
+                vertices = self.dfs(vertice.get_id(), vertices)
+
+        vertices.reverse()
+        return vertices
+
 
     def bfs_traversal(self, start_id):
         """
