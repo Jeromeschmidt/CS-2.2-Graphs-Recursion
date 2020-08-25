@@ -196,25 +196,6 @@ class Graph:
             result.append(elm.get_id())
         return result
 
-    # def dfs_traversal(self, start_id):
-    #     """Visit each vertex, starting with start_id, in DFS order."""
-    #
-    #     visited = set() # set of vertices we've visited so far
-    #
-    #     def dfs_traversal_recursive(start_vertex):
-    #         print(f'Visiting vertex {start_vertex.get_id()}')
-    #
-    #         # recurse for each vertex in neighbors
-    #         for neighbor in start_vertex.get_neighbors():
-    #             if neighbor.get_id() not in visited:
-    #                 visited.add(neighbor.get_id())
-    #                 dfs_traversal_recursive(neighbor)
-    #         return
-    #
-    # visited.add(start_id)
-    # start_vertex = self.get_vertex(start_id)
-    # dfs_traversal_recursive(start_vertex)
-
     def contains_cycle(self):
         """
         Return True if the directed graph contains a cycle, False otherwise.
@@ -223,7 +204,6 @@ class Graph:
             return False
 
         start_id = random.choice(list(self.vertex_dict.keys()))
-        print(type(start_id))
         next_vertices = deque()
         path = dict()
         path[start_id] = list()
@@ -291,8 +271,6 @@ class Graph:
         visited_vertices = set()
         next_vertices = deque()
 
-        # visited_vertices.add(self.get_vertex(start_id))
-        # next_vertices.append(self.get_vertex(start_id))
         visited_vertices.add(start_id)
         next_vertices.append(start_id)
 
@@ -329,7 +307,7 @@ class Graph:
             temp = next_vertices.popleft()
 
             if self.get_vertex(target_id) in temp.get_neighbors():
-                return visited_vertices[self.get_vertex(start_id)]#[1:]
+                return visited_vertices[self.get_vertex(start_id)]
 
             visited_vertices[self.get_vertex(start_id)].append(temp)
 
