@@ -64,17 +64,15 @@ def timeToRot(grid):
     counter = 0
     queue = deque()
 
-    for row in grid:
-        for elm in row:
-            if elm == 1:
-                num_of_oranges += 1
-    if num_of_oranges == 0:
-        return 0
+    num_of_oranges = 1
 
     while num_of_oranges > 0:
         counter += 1
+        num_of_oranges = 0
         for i in range(len(grid)):
             for j in range(len(grid)):
+                if grid[i][j] == 1:
+                    num_of_oranges += 1
                 if grid[i][j] == 2:
                     if i-1 >= 0:
                         queue.append((i-1,j))
