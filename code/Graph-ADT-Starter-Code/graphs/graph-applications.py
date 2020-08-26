@@ -143,13 +143,38 @@ possibleSchedules = [ [0, 1, 2, 3], [0, 2, 1, 3] ]
 assert courseOrder(4, courses2) in possibleSchedules
 
 
-# def wordLadderLength(beginWord, endWord, wordList):
-#     """Return the length of the shortest word chain from beginWord to endWord, using words from wordList."""
-#     pass
-#
-# # Test Cases
-# beginWord = "hit"
-# endWord = "cog"
-# wordList = ["hot","dot","dog","lot","log","cog"]
-#
-# assert wordLadderLength(beginWord, endWord, wordList) == 5
+def wordLadderLength(beginWord, endWord, wordList):
+    """Return the length of the shortest word chain from beginWord to endWord, using words from wordList."""
+    queue = deque()
+    visited = set()
+    word_path = dict()
+
+    queue.append(beginWord)
+    word_path[beginWord] = list()
+
+
+    while len(queue) > 0:
+        temp = queue.popleft()
+        visited.add(temp)
+
+        for word in wordList:
+            if len(word) == len(temp):
+                differences = 0
+                for i in range(len(word)):
+                    if word[i] != temp[i]:
+                        differences += 1
+                if differences == 1:
+                    if word not in visited:
+                        queue.append(word)
+                    word_path[word] = word_path[temp] + [word]
+                    if word == endWord:
+                        return len(word_path[endWord])+1
+
+    return -1
+
+# Test Cases
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log","cog"]
+
+assert wordLadderLength(beginWord, endWord, wordList) == 5
