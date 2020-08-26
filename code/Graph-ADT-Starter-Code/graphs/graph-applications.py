@@ -53,36 +53,76 @@ map2 = [
 ]
 assert numIslands(map2) == 3
 
-#
-# def timeToRot(grid):
-#     """
-#     Take in a grid of numbers, where 0 is an empty space, 1 is a fresh orange, and 2 is a rotten
-#     orange. Each minute, a rotten orange contaminates its 4-directional neighbors. Return the number
-#     of minutes until all oranges rot.
-#     """
-#     pass
-#
-# # Test Cases
-# oranges1 = [
-#     [2,1,1],
-#     [1,1,0],
-#     [0,1,1]
-# ]
-# assert timeToRot(oranges1) == 4
-#
-# oranges2 = [
-#     [2,1,1],
-#     [0,1,1],
-#     [1,0,1]
-# ]
-# assert timeToRot(oranges2) == -1
-#
-# oranges3 = [
-#     [0,2]
-# ]
-# assert timeToRot(oranges3) == 0
-#
-#
+
+def timeToRot(grid):
+    """
+    Take in a grid of numbers, where 0 is an empty space, 1 is a fresh orange, and 2 is a rotten
+    orange. Each minute, a rotten orange contaminates its 4-directional neighbors. Return the number
+    of minutes until all oranges rot.
+    """
+    num_of_oranges = 0
+    counter = 0
+    queue = deque()
+
+    for row in grid:
+        for elm in row:
+            if elm == 1:
+                num_of_oranges += 1
+    if num_of_oranges == 0:
+        return 0
+
+    while num_of_oranges > 0:
+        counter += 1
+        for i in range(len(grid)):
+            for j in range(len(grid)):
+                if grid[i][j] == 2:
+                    if i-1 >= 0:
+                        queue.append((i-1,j))
+                    if j-1 >= 0:
+                        queue.append((i,j-1))
+                    if i+1 < len(grid):
+                        queue.append((i+1,j))
+                    if j+1 < len(grid):
+                        queue.append((i,j+1))
+
+
+        changes = 0
+        while len(queue) > 0:
+            temp = queue.popleft()
+            if grid[temp[0]][temp[1]] == 1:
+                num_of_oranges -= 1
+                grid[temp[0]][temp[1]] = 2
+                changes += 1
+                print(changes)
+
+        if changes == 0:
+            return -1
+
+    return counter
+
+
+
+# Test Cases
+oranges1 = [
+    [2,1,1],
+    [1,1,0],
+    [0,1,1]
+]
+assert timeToRot(oranges1) == 4
+
+oranges2 = [
+    [2,1,1],
+    [0,1,1],
+    [1,0,1]
+]
+assert timeToRot(oranges2) == -1
+
+oranges3 = [
+    [0,2]
+]
+assert timeToRot(oranges3) == 0
+
+
 # def courseOrder(numCourses, prerequisites):
 #     """Return a course schedule according to the prerequisites provided."""
 #     pass
