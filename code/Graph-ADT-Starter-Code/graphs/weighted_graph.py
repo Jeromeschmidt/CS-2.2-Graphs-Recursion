@@ -162,6 +162,14 @@ class WeightedGraph(Graph):
         # TODO: Return the solution list.
         return result
 
+    def get_minimum_weight(self, vertex_to_weight):
+        min = (None, float('inf'))
+
+        for key, value in vertex_to_weight.items():
+            if value < min[1]:
+                min = (key, value)
+        return min
+
     def minimum_spanning_tree_prim(self):
         """
         Use Prim's Algorithm to return the total weight of all edges in the
@@ -171,16 +179,32 @@ class WeightedGraph(Graph):
         """
         # TODO: Create a dictionary `vertex_to_weight` and initialize all
         # vertices to INFINITY - hint: use `float('inf')`
-
+        MST = 0
+        visited = set()
+        vertex_to_weight = dict()
+        vertices = self.get_vertices()
+        for vert in self.get_vertices():
+            vertex_to_weight[vert.get_id()] = float('inf')
         # TODO: Choose one vertex and set its weight to 0
-
+        vertex_to_weight[vertices[0].get_id()] = 0
         # TODO: While `vertex_to_weight` is not empty:
         # 1. Get the minimum-weighted remaining vertex, remove it from the
         #    dictionary, & add its weight to the total MST weight
         # 2. Update that vertex's neighbors, if edge weights are smaller than
         #    previous weights
+        while vertex_to_weight != {}:
+            min = self.get_minimum_weight(vertex_to_weight)
+            vertex_to_weight.pop(min[0])
+            MST += min[1]
+            visited.add(min[0])
+
+            for neighbor, weight in self.get_vertex(min[0]).get_neighbors_with_weights():
+                if neighbor.get_id() not in visited:
+                    if weight < vertex_to_weight[neighbor.get_id()]:
+                        vertex_to_weight[neighbor.get_id()] = weight
 
         # TODO: Return total weight of MST
+        return MST
 
     def find_shortest_path(self, start_id, target_id):
         """
@@ -189,13 +213,16 @@ class WeightedGraph(Graph):
         """
         # TODO: Create a dictionary `vertex_to_distance` and initialize all
         # vertices to INFINITY - hint: use `float('inf')`
-
+        vertex_to_distance = dict()
+        for vert in self.get_vertices():
+            vertex_to_distance[vert.get_id()] = float('inf')
         # TODO: While `vertex_to_distance` is not empty:
         # 1. Get the minimum-distance remaining vertex, remove it from the
         #    dictionary. If it is the target vertex, return its distance.
         # 2. Update that vertex's neighbors by adding the edge weight to the
         #    vertex's distance, if it is lower than previous.
-
+        while vertex_to_distance != {}:
+            pass
         # TODO: Return None if target vertex not found.
 
 
