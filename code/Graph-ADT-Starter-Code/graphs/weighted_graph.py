@@ -213,6 +213,7 @@ class WeightedGraph(Graph):
         """
         # TODO: Create a dictionary `vertex_to_distance` and initialize all
         # vertices to INFINITY - hint: use `float('inf')`
+        visited = set()
         vertex_to_distance = dict()
         for vert in self.get_vertices():
             vertex_to_distance[vert.get_id()] = float('inf')
@@ -221,10 +222,23 @@ class WeightedGraph(Graph):
         #    dictionary. If it is the target vertex, return its distance.
         # 2. Update that vertex's neighbors by adding the edge weight to the
         #    vertex's distance, if it is lower than previous.
-        while vertex_to_distance != {}:
-            pass
-        # TODO: Return None if target vertex not found.
+        vertex_to_distance[start_id] = 0
 
+        while vertex_to_distance != {}:
+            min = self.get_minimum_weight(vertex_to_distance)
+
+            visited.add(min[0])
+            if min[0] == target_id:
+                return vertex_to_distance[target_id]
+            vertex_to_distance.pop(min[0])
+            for neighbor, weight in self.get_vertex(min[0]).get_neighbors_with_weights():
+                if neighbor.get_id() not in visited:
+                    if weight < vertex_to_distance[neighbor.get_id()]:
+                        vertex_to_distance[neighbor.get_id()] = weight + min[1]
+
+
+        # TODO: Return None if target vertex not found.
+        return None
 
     def floyd_warshall(self):
         """
