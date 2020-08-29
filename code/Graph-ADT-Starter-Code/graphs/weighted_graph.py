@@ -245,4 +245,10 @@ class WeightedGraph(Graph):
         Return the All-Pairs-Shortest-Paths dictionary, containing the shortest
         paths from each vertex to each other vertex.
         """
-        pass
+        shortest_paths = dict()
+        for vert_1 in self.get_vertices():
+            for vert_2 in self.get_vertices():
+                if vert_1 != vert_2:
+                    shortest_paths[vert_1] = self.find_shortest_path(vert_2)
+
+        return shortest_paths
